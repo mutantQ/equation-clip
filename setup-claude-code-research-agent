@@ -1,0 +1,631 @@
+
+The AI Maker
+The AI Maker
+
+How I Turned Claude Code Into My Personal AI Agent Operating System for Writing and Research
+The complete guide building 24/7 AI agent that works across all your devices.
+Wyndo
+Sep 25, 2025
+
+
+Most people think Claude Code is for engineers who want to build apps faster. I thought that too. But as much as I wanted to try, I already had a coding setup that worked. Cursor handled my vibe-coding projects just fine. Claude web/desktop was perfect for brainstorming, researching, and writing. My workflows were humming along smoothly.
+
+So when Claude Code launched, my honest reaction was: “Why would I complicate a system that’s already working?”
+
+The terminal looked intimidating. Every demo was about coding, not writing. My current setup wasn’t broken—just minor friction here and there.
+
+So I ignored it for months.
+
+I was completely wrong.
+
+Two months ago, I gave Claude Code a try and here's what I learned: Claude Code might be the best writing and research assistant I've ever used. I know this might be over the top statement, but allow me to convince you why this might change how you work.
+
+For those who've read AI Maker for a while, you know I've been a Claude user forever. Built my entire newsletter system there. But Claude Code felt like overkill for writing work.
+
+Claude Code Homepage
+I was working on a complex article and drowning in research. Ten PDF files, screenshots from different experiments, random notes scattered everywhere. You know that feeling when you can't remember which file contains that perfect quote? Or when you have documents open and you're losing track of how they all connect?
+
+I used to spend hours just organizing my research before I could even start writing.
+
+On a whim, I pointed Claude Code at my messy research folder. Instead of me explaining what each file contained, Claude Code read everything and immediately started connecting dots I'd missed.
+
+It suggested an article structure based on past newsletter posts in my files. It caught contradictions between different sources. It even found gaps where I needed more research.
+
+That's when it clicked. What makes Claude Code different from regular Claude comes down to three things that completely changed how I work:
+
+Agentic: It understands context better and proactively completes tasks for you
+
+Fast: Since it lives in your terminal, latency is low, so it thinks and executes faster
+
+Direct file access: This is the big one—it can access and edit your files directly
+
+Now, the terminal thing might sound intimidating if you're not technical. But most non-tech people don't know you can use IDE (Integrated Development Environment) tools like VSCode or Cursor alongside Claude Code. Think of these as interfaces that let you see and organize your files visually while Claude Code does the heavy lifting in the background. These IDE tools are free to use so you don't have to put extra money on it.
+
+Claude Code running on Cursor
+AI Maker’s Newsletter Project Files Inside Cursor
+The whole experience is still familiar—you're talking to an intelligent AI just like using Claude or ChatGPT. The difference is this AI can actually see and work with your files, not just talk about them.
+
+I know this might still sound intimidating too for people who never used an IDE before, but trust me, the learning curve is definitely worth it. I want you to experience what I've been experiencing for almost two months of using it.
+
+In this post, I want to do a full deep-dive on how we, as regular people (not developers), can use Claude Code to improve our work. Whether you’re working on writing, marketing, content creation, research, or even managing your personal life, you can implement this without any technical knowledge. In fact, I believe Claude Code is the closest thing we have to building a “second brain” powered by AI. My goal is to keep things straightforward and practical, so you’ll see how Claude Code can be accessible and useful for people like us.
+
+Here's what you are going to learn:
+
+How to get started: We'll walk through the simple setup so you can get Claude Code running on your machine without getting lost in technical details.
+
+Claude.md - A special file that acts like a persistent memory system for your project. Claude Code remembers your preferences, ongoing tasks, and project context across sessions. No more re-explaining your project every time you start working.
+
+Slash commands - Quick shortcuts that let you tell Claude Code exactly what type of help you need. Think of it like having preset buttons for "analyze this file," "organize my research," or "fix this structure." No more explaining the same context over and over.
+
+Plan mode - Instead of Claude Code just executing your requests immediately, it first shows you a step-by-step plan of what it's going to do. You can review, modify, or approve before anything happens to your files. This prevents those "wait, that's not what I meant" moments.
+
+Sub-agent - Claude Code can spawn smaller, focused agents to handle specific parts of your project while you work on something else. Imagine having an AI assistant that can research a topic in the background while you're writing, then seamlessly integrate its findings when you're ready.
+
+Output styles - You can train Claude Code to match your specific writing voice, research format, or organizational system. Once it learns how you work, every output feels like something you could have created yourself.
+
+MCP (Model Context Protocol) - This connects Claude Code directly to your other tools like Notion, email, calendars, and file systems. Your AI assistant can actually manage your real workflows, not just talk about them.
+
+Github integration and Obsidian access - This workflow will blow your mind because it turns Claude Code from a desktop tool into a 24/7 AI assistant that works across all your devices
+
+Each of these features solves a specific problem that makes working with AI frustrating. By the end of this guide, you'll understand not just how to use them, but when each one becomes your secret weapon for different types of work.
+
+Before we jump in, here’s something special for AI Maker Labs members: you’ll get exclusive access to my Claude Code directory. You’ll be able to peek behind the curtain at exactly how I structure my newsletter project—every workflow, every custom command, every output style, and even the sub-agents that power my process. If you’re curious about how to actually implement these ideas for yourself, this is your chance to “steal” my entire Claude Code playbook and start using it in your own work.
+
+Give me the access
+
+Now, let's dive in.
+
+1. How to get started with Claude Code
+Installing and running Claude Code on your computer is not as hard as you think. What you need is just Claude Pro Plan unless you are a hardcore user who uses Max Plan. I'm currently on Pro Plan and it works just fine for me to manage my newsletter as long as I don't use it for heavy coding projects.
+
+Step 1: Install Claude Code
+Now, open your Terminal, copy and paste this code:
+
+npm install -g @anthropic-ai/claude-code
+Before installing Claude Code, make sure you have NodeJS 18+ installed. If you’re not sure how to do it, watch this YouTube tutorial for quick tips. In case you find an error during the installation in the Terminal, copy the error code and paste it in your Claude web/desktop version, and ask it how to fix the issue. Most of the time, Claude will share the code you need to paste inside your terminal and it will be completed instantly.
+
+Once the process is done, Claude Code will ask you to connect your Claude account, which you can proceed with easily.
+
+Step 2: Set up your project structure
+To get started using Claude Code with your writing and research project, first create a folder on your computer. In my case, it’s “AI Maker Newsletter.”
+
+But here comes the problem when you work purely in the terminal: it feels like coding in the dark. You can’t see your files, folder structure, or easily navigate between documents. This is where IDE comes in handy.
+
+Step 3: Use your IDE for visual file management
+Cursor Open Project
+Open Cursor and click “Open Project” to access your project folder
+To access and manage your project files while using Claude Code, you need to use an IDE like VSCode or Cursor (I use Cursor!). Open your project folder using your IDE of choice.
+
+Step 4: Test your setup and activate Claude Code
+Claude Code Activation
+Now that Claude Code has been integrated into your computer, activating it in your terminal is easy. First, go to the Terminal tab inside your IDE, simply type “claude,” and Claude Code will be activated.
+
+Once you have both Claude Code running and your project folder open in your IDE, try this simple test:
+
+In your terminal with Claude Code activated, type: "Show me what files are in this project"
+
+In your IDE, create a new text file called "test.md"
+
+Ask Claude Code: "What did I just add to this project?"
+
+If Claude Code can see and describe your new file, you're all set. If not, make sure you're in the right directory in your terminal where your project folder is located.
+
+2. Claude.md: Your project's memory system
+Now that you have Claude Code running with your IDE, you're probably thinking this is just like having Claude in your terminal. Nope, you were wrong!
+
+Most people treat Claude Code like a chat session that happens to access files. They start fresh every time, explain their project context over and over, and wonder why Claude Code doesn't seem that much better than regular Claude.
+
+The secret is claude.md—a special file that acts as your project's persistent memory system.
+
+claude.md is Claude Code's brain for your specific project. Every time you start a session, Claude Code reads this file first to understand what you're working on, how you work, and what your goals are. Without it, Claude Code is like having an assistant with amnesia who needs to relearn everything about your project every single day.
+
+What claude.md actually does:
+
+Stores project context that persists across all sessions
+
+Remembers your working style and preferences
+
+Contains your specific instructions for how Claude should help you
+
+As long as claude.md is updated properly, you don't have to worry about losing context in your project.
+
+How I set up claude.md for my newsletter project
+Instead of writing claude.md from scratch, I asked Claude Code to create it. Here's exactly how I did it:
+
+First, I gathered all my newsletter-related files into my "AI Maker Newsletter" project folder:
+
+Performance data from past newsletters (view counts, engagement metrics)
+
+All my published posts (so Claude understands my writing style)
+
+My about page and newsletter description
+
+Welcome email
+
+Collection of my social notes
+
+Reader feedback and comments I'd saved
+
+Content strategy documents
+
+Once everything was in the folder, I opened my terminal with Claude Code activated and ran this command:
+
+/init
+That's it.
+
+Claude Code read through my entire project folder—every file, every document, every piece of data about my newsletter—and automatically generated a comprehensive claude.md file.
+
+
+The result was incredible. Claude Code created a file that understood:
+
+My writing voice and style patterns
+
+What content performs well for my audience
+
+My newsletter's positioning and unique angle
+
+The types of problems my readers face
+
+How I structure articles and research projects
+
+Now, every time I start a Claude Code session, it knows I'm working on AI Maker newsletter content, understands my voice, and can make suggestions that actually fit my style and audience.
+
+This is why claude.md is so powerful—it turns Claude Code from a general assistant into a specialized team member who intimately understands your project inside out.
+
+3. Slash Commands: The shortcuts to your work
+Claude Code Custom Slash Command
+AI Maker’s Custom Slash Commands
+I can say slash commands are one of Claude Code's powerful weapon. They're pre-built shortcuts that tell Claude Code exactly what type of help you need, without you having to explain the context every single time.
+
+Think of slash commands like having a toolbox where each tool is designed for a specific job. Instead of asking Claude Code to "help me with this content" and hoping it understands what you want, you can use /edit and Claude Code immediately knows you want to improve the content, not to analyze it. It's actually similar with Dia's Skills.
+
+Why slash commands is game-changing
+The problem with regular Claude and any other AI conversations is that you spend half your time explaining what you want and the other half clarifying what you didn't want. Slash commands eliminate this friction, easy!
+
+When I'm working on newsletter content, I don't want to type:
+
+"Please help me improve this article by making the introduction stronger, clarifying the main points, improving transitions, and ensuring the conclusion has clear next steps while maintaining my writing voice."
+
+Instead, I just type /quick-edit (my custom command) and Claude Code knows exactly what I want.
+
+Top 5 built-in slash commands you should know
+Claude Code comes with several powerful commands right out of the box, but here are most important you’ll use regularly:
+
+/agents - Shows you active sub-agents working on different parts of your project. Useful when you have Claude Code handling multiple tasks simultaneously.
+
+/compact - Clear conversations history but keep a summary in the context. Perfect when you want to start a new chat session while keeping the previous chat context.
+
+/exit - Cleanly closes your Claude Code session. Sounds basic, but it properly saves your session state and context. Use this to restart Claude Code.
+
+/mcp - Lists and manages your Model Context Protocol connections. Important for checking if your external tool integrations are working properly.
+
+/memory - Shows what Claude Code remembers about your current project session. Helpful for understanding what context it's working with.
+
+There are several other built-in commands, and you can learn them here.
+
+Creating custom commands that transform your workflow
+As I mentioned earlier, you can create your own slash command. Here’s mine that saves me hours every week on newsletter work.
+
+My /quick-edit command:
+
+Help me quickly improve this existing AI Maker newsletter content by:
+
+1. Strengthening the personal hook/opening
+2. Making the framework clearer and more actionable  
+3. Improving transitions between sections
+4. Enhancing the conclusion with stronger next steps
+5. Ensuring voice consistency throughout
+
+Please review the content and suggest specific edits that will increase engagement and value while maintaining The AI Maker brand voice and approach.
+Now when I finish a draft, I just paste the content and type /quick-edit. Claude Code knows exactly to focus on these five improvement areas, using my specific voice and brand standards.
+
+See? I no longer need to explain any context since Claude knows everything about my newsletter.
+
+My other custom commands:
+
+/generate-ideas - Analyzes my audience engagement data, recent newsletter performance, and trending topics to suggest new newsletter ideas that align with my expertise and reader interests.
+
+/seo-optimize - Reviews my past newsletter posts to understand my SEO patterns, then analyzes current content and suggests specific improvements for search optimization while maintaining my authentic voice.
+
+/perspective-analysis - Reviews my newsletter through five different perspectives to uncover blind spots and strengthen my content.
+
+By the way, I’ve put together 20+ custom commands that make writing and researching a lot smoother. If you’re curious, you can check them all out in one spot after upgrading to AI Maker Labs.
+
+Give me the access
+
+4. Plan Mode: Think before you act
+I bet those of you who have done vibe-coding before can relate to this problem: we ask for a brainstorming session and AI starts coding without us asking for it. This also happens with writing. Half the time, we realize halfway through that it’s going in the wrong direction, but by then it has already modified files or created content we didn’t want. This is the current problem with agentic coding assistants like Claude Code, Cursor, Replit, etc. The AI can’t hold back from coding everything!
+
+Plan mode solves this completely. Instead of Claude Code jumping straight into action, it first shows you a detailed plan of what it's going to do, then waits for your approval before executing anything.
+
+How plan mode can save you from accidental AI execution
+When you’re working on research or writing projects, you want to see the thinking process before the execution. Plan mode gives you that transparency.
+
+Let’s say I ask Claude Code to “generate 5 LinkedIn posts.” Without plan mode, Claude Code might start editing files around immediately. With plan mode, it first shows me its plan:
+
+Claude code todo list
+Now I can see exactly what Claude Code is planning to do. If I don't like its plan, or if I want it to suggest another angle, I can adjust the plan before anything gets moved or changed.
+
+How to activate and use plan mode
+Claude code plan mode
+Plan mode is not running by default. You need to request it explicitly. To activate it, you can just simply select Shift + Tab on your keyboard until you see the plan mode is on.
+
+When to use plan mode
+For my newsletter work, I always want plan mode when I'm asking Claude Code to:
+
+Analyze multiple research sources and create summary documents
+
+Reorganize content folders or research materials
+
+Process reader feedback and suggest content improvements
+
+The best thing about Plan mode, it turns Claude Code from an overly eager assistant into a thoughtful working partner that shows its work before making any changes. If you’re managing complex projects or valuable content, this feature alone makes Claude Code worth learning.
+
+5. Sub-Agents: Your AI team working in the background
+Sub-agent Claude Code
+Three AI Maker’s sub-agents running simultaneously
+One of the most mind-blowing features of Claude Code is sub-agents. These are smaller, specialized AI assistants that Claude Code can spawn to handle specific tasks while you work on something else.
+
+What makes sub-agent so special?
+Well, it has a specific purpose and expertise area, uses its own context window separate from the main conversation, can use specific tools like MCP, and has its own system prompt that guides its behavior.
+
+Why sub-agents change how you work
+Normally, the way we work with AI is linear: you ask for something, wait for the response, then ask for the next thing. Sub-agents break this pattern completely.
+
+Instead of stopping your writing to research a topic, you can deploy a sub-agent to handle the research while you keep writing. Instead of manually checking for updates or new information, a sub-agent can monitor sources and update you when something relevant appears.
+
+This is particularly powerful for newsletter writers and content creators who need to juggle multiple information streams while maintaining their creative flow.
+
+How I use sub-agents for newsletter automation
+I have a sub-agent that's become essential to my newsletter workflow. Every morning, I ask the sub-agent to:
+
+Scans daily AI news sources using Perplexity MCP to find the most relevant developments
+
+Filters content specifically for my audience - it knows AI Maker readers want practical implementation insights, not just news updates
+
+Suggests personalized content ideas based on what it finds and my past newsletter performance
+
+Outputs everything to a specific file in my "Content Ideas" folder, formatted exactly how I like it
+
+The result? After brewing a cup of coffee, I got a curated daily brief of AI recent news from yesterday with content ideas tailored specifically to my newsletter's focus and audience. I no longer need to scan news sites manually. I no longer wonder if I had missed something important.
+
+Here’s how the output looks like:
+
+Sub-agents Claude Code for Daily AI News Summary
+This sub-agent has saved me at least 5 hours per week of manual research and idea generation.
+
+Setting up sub-agents for your projects
+Sub-agents work best when you give them:
+
+Specific, repeatable tasks - Things you do regularly that follow a pattern
+
+Clear output requirements - Exactly how and where you want results delivered
+
+Defined scope - What sources to check, what criteria to use for filtering
+
+I have 5+ sub-agents that do the work for me on writing and research project:
+
+Substack Notes Generator: This agent crafts 10 Substack Notes tailored to your project, ensuring your brand, authority, voice, and tone stay consistent.
+
+Tool Analysis Review: This agent scours the internet to run reviews and competitive analyses of AI tools, then suggests the best angle for you to cover—based on what it knows about your newsletter.
+
+Daily AI News Summary: This agent searches the latest AI news from the past 24–48 hours, keeps you updated, delivers concise summaries, and explains why each story matters for your writing.
+
+And that’s just the beginning.
+
+If you want access to all these agents and more, consider upgrading to AI Maker Labs. You’ll unlock a smarter, more efficient workflow—designed to help you create, research, and publish with less friction and more impact.
+
+Let me upgrade
+
+How to create your first sub-agent
+Creating a sub-agent is pretty straightforward, as long as you know what you want it to do. Just open your agent mode with the /agents command and ask Claude Code to set it up for you.
+
+Once it’s ready, you can simply ask to run it.
+
+If you want more details, the documentation covers everything you need to know.
+
+6. Output Styles: Training Claude Code to think like you
+Output styles might be Claude Code's most underrated feature. Most people never realize they can train Claude Code to respond in completely different ways depending on the type of work they're doing.
+
+Output style is actually a system prompt for Claude Code. But, I like to think output styles as different hats Claude Code can wear. When you're brainstorming, you want creative, exploratory responses. When you're analyzing data, you want structured, analytical output. When you're planning content strategy, you want actionable frameworks and specific recommendations.
+
+Without output styles, you get generic Claude responses that might be helpful but don't match how you actually think about your work.
+
+Why output styles can make huge difference in your work
+The problem with most AI conversations is that you get one-size-fits-all responses. Claude gives you the same type of answer whether you're asking for creative ideas or strategic analysis. This forces you to constantly clarify what type of thinking you need.
+
+Output styles eliminate this friction by pre-defining different thinking modes. When you switch to your “strategy” output style, Claude Code immediately knows to focus on growth metrics, competitive positioning, and actionable plans. When you switch to “creative” mode, it knows to prioritize idea generation and exploration.
+
+My three specialized output styles
+I've created three distinct output styles that handle different aspects of my newsletter business:
+
+Growth Strategist Mode: This output style makes Claude Code think like a newsletter growth expert. When I ask about subscriber acquisition or content performance, it responds with:
+
+Specific growth metrics and benchmarks
+
+Actionable strategies with timeline estimates
+
+Competitive analysis and positioning insights
+
+Growth experiment suggestions with success criteria
+
+Funnel Conversion Mode: This style focuses specifically on converting free subscribers to paid members. Claude Code analyzes:
+
+Content gaps between free and paid tiers
+
+Value proposition optimization for paid content
+
+Conversion sequence improvements
+
+Pricing psychology and positioning strategies
+
+Social Media Strategist Mode: When I need to expand my newsletter's reach, this output style thinks about:
+
+Content repurposing for maximum social impact
+
+Platform-specific optimization strategies
+
+Viral content patterns and timing
+
+Cross-platform funnel optimization
+
+How output styles change your workflow
+Instead of asking general questions and hoping for useful answers, I can be incredibly specific about the type of thinking I need.
+
+Without output styles: "How can I grow my newsletter faster?" Gets generic advice about content quality and consistency
+
+With Growth Strategist output style: "How can I grow my newsletter faster?" Gets specific analysis of my current metrics, identification of bottlenecks in my funnel, three tested growth strategies with implementation timelines, and success metrics to track
+
+The difference is that Claude Code knows exactly what lens to use for analyzing my question.
+
+Creating output styles that match your thinking
+The key to effective output styles is modeling them after how you actually approach different types of work.
+
+Step 1: Identify your thinking modes
+
+What are the different ways you approach your work? Do you have a "creative hat" and an "analytical hat"? Do you think differently about short-term tactics versus long-term strategy?
+
+Step 2: Define the characteristics
+
+For each thinking mode, specify:
+
+What type of information to prioritize
+
+How detailed responses should be
+
+What format works best (bullets, paragraphs, frameworks)
+
+What success metrics or criteria to consider
+
+Step 3: Test and refine
+
+Start using your output styles and notice when responses don't match what you need. Refine the style definitions based on real usage.
+
+The compound effect of personalized output
+Once you have output styles that match your thinking patterns, every interaction with Claude Code becomes more valuable. You stop getting generic advice and start getting insights that feel like they come from a team member who understands your specific business context and thinking style.
+
+It changes Claude Code into a specialized consultant who can think about your work the same way you do, but with different areas of focus and expertise.
+
+7. MCP Integration: Extending Claude Code beyond your files
+Just like Claude web and desktop, you can use MCP (Model Context Protocol) to connect Claude Code with multiple external apps and services. If you’ve been following AI Maker, you already know how powerful MCP integrations can be for automating workflows and connecting AI to your real tools.
+
+The difference with Claude Code is that MCP integrations work seamlessly within your project context. Instead of switching between Claude desktop and your project files, everything happens in one unified workspace.
+
+My current MCP setup for research workflows
+I primarily use two MCP integrations that have changed how I handle newsletter research:
+
+Perplexity MCP - This lets Claude Code perform real-time web searches and analysis without me leaving my project. When I’m working on an article about a new AI tool, Claude Code can instantly research the tool, find user reviews, and gather competitive information—all while maintaining context about my specific article and audience.
+
+Firecrawl MCP - This integration lets Claude Code extract and analyze content from websites directly. When I find a relevant article or tool documentation, Claude Code can pull the full content, analyze it for key insights, and integrate findings into my research notes automatically.
+
+Setting up MCP with Claude Code
+The setup process is similar to what you’ve seen with Claude desktop—you configure the MCP connections through Claude Code’s settings, authenticate your services with API key, and start using them in a conversation.
+
+The key difference is that Claude Code’s MCP integrations understand your project context, so they can automatically organize results, maintain consistency with your existing files, and follow the patterns established in your claude.md file.
+
+For AI Maker Labs members, you can find my MCP config inside my project folder, ready to copy and paste. Feel free to use it—just remember to update the API key with your own.
+
+By the way, when I used Claude desktop/web, I relied on Notion MCP as my file management tool and as a way to generate output or access my knowledge so Claude could better understand my context. But since switching to Claude Code, I no longer use Notion.
+
+Why? You might be surprised by what I’m about to show you.
+
+8. Github and Obsidian integration: Making Claude Code project available anywhere, 24/7
+Claude code github and obsidian workflow
+This is the most insane feeling I've had recently with AI.
+
+Everything we just covered—slash commands, sub-agents, MCP integrations, output styles—can now be accessed from anywhere, anytime, through your mobile phone. We’re talking about having your entire Claude Code project intelligence available while you’re commuting, traveling, or just lying in bed with an idea.
+
+The secret is integrating Claude Code with GitHub and syncing your project files through Obsidian. This combination turns Claude Code from a desktop tool into a 24/7 AI assistant that works across all your devices.
+
+Let us unpack what’s behind all this.
+
+The mobile breakthrough: GitHub issues as Claude Code commands
+Claude Code Github Integration
+Here’s where it gets crazy. By connecting your Claude Code project to GitHub, you can use GitHub’s mobile app to command Claude Code through issue tickets.
+
+Want Claude Code to repurpose your latest newsletter into LinkedIn posts while you’re on the train? Create a GitHub issue, mention Claude, and describe what you need. Claude Code processes your request, executes the work using all your project context then updates the issue with results.
+
+The workflow looks like this:
+
+Open GitHub mobile app
+
+Create new issue in your project repository
+
+Write your request description: “Repurpose my latest newsletter into 5 LinkedIn posts.”
+
+Write a comment on the ticket issue: “Hey @claude, please handle this issue.”
+
+Results delivered - Claude updates the issue with completed work and file locations
+
+This means Claude Code is now working for you even when you’re not at your computer. Your AI assistant has become truly mobile and always available.
+
+Obsidian: Your project data everywhere
+Obsidian Integration with Claude Code
+AI Maker’s Project Inside Obsidian
+The missing piece was access to your actual project files on mobile. This is where Obsidian becomes important.
+
+Unlike Notion or other cloud-based tools, Obsidian stores everything as local markdown files. Since my entire newsletter project uses markdown files—research notes, drafts, performance data, everything—I can sync the complete project folder through Obsidian and access it from any device.
+
+This means:
+
+Mobile access to all your project files and research
+
+Real-time sync between your desktop Claude Code sessions and mobile
+
+Complete context available whether you’re on computer or phone
+
+Offline access to your project data when needed
+
+Reader View lets you preview your content in a clean, distraction-free format
+
+The setup is straightforward: your Claude Code project folder becomes your Obsidian vault, and Obsidian handles syncing across all your devices.
+
+Pro tip for voice capture:
+
+Wisprflow Claude Code Obsidian workflow
+I use Wisprflow through Apple Shortcuts to record voice memos that automatically get inserted into my Obsidian vault. When I have a content idea while walking or driving, I just trigger the shortcut, record my thoughts, and the transcribed memo appears in my brain-dump folder.
+
+The magic happens when I get back to Claude Code. I can ask it to “analyze my latest voice memo and turn it into a newsletter outline” or “expand on the automation idea from yesterday’s voice memo.” Since the voice memo is now part of my synced project files, Claude Code can immediately access it, understand the context, and help me develop the idea further.
+
+This creates a seamless idea-to-content pipeline. No ideas get lost, and every random thought can become polished content.
+
+Real-world mobile workflows that blow your mind
+Morning commute content creation:
+
+Imagine you are on the subway, see an interesting AI tool on Twitter. You create a GitHub issue: “Research this new AI tool and create a newsletter idea brief.” By the time you get to the office, Claude Code has researched the tool, analyzed how it fits your audience, and prepared a complete content brief in your project folder.
+
+Evening notes generation:
+
+Lying in bed, you want to create 10 Substack notes based on your personal branding voice and tone. GitHub issue: “Create 10 Substack notes.” Claude Code uses your past performance data, audience intelligence, and content patterns to generate 10 Substack notes exactly like how you write it.
+
+Weekend content optimization:
+
+Relaxing at a coffee shop, you want to optimize last week’s newsletter for SEO. GitHub issue with the specific post attached. Claude Code analyzes the content using your SEO optimization custom slash command and provides detailed improvement suggestions.
+
+The 24/7 AI agent reality
+This integration creates something that feels like science fiction: an AI agent that has complete context about your work and can execute complex tasks while you’re doing other things.
+
+Your Claude Code project becomes a living, working system that:
+
+Processes requests while you sleep or travel
+
+Maintains full context across all interactions
+
+Uses your custom workflows and output styles automatically
+
+Organizes results exactly where you need them
+
+Works across devices seamlessly
+
+Setting up the mobile workflow
+Step 1: Integrate and push your Claude Code project folder to GitHub
+
+Step 2: Set up Obsidian with your project folder as the vault
+
+Step 3: Configure Obsidian sync across your devices
+
+Step 4: Test the GitHub issue workflow with simple requests
+
+Step 5: Gradually expand to more complex mobile commands
+
+Trust me, once you have this workflow in your life, you’ll never want to go back. Soon, you’ll start to notice this is the future of AI assistance—not just smarter responses, but AI that works continuously in the background of your life, always ready when you need it, always maintaining the context of your ongoing projects.
+
+Your next steps into AI agent workflow
+If you’ve made it this far, you’re probably feeling a mix of excitement and overwhelm. That’s normal. I had the same feeling the first time I got to know this. Claude Code represents a fundamental shift in how AI can integrate with your actual work, not just chat about it.
+
+But you don’t need to implement everything at once. Instead, take your time and approach it in phases.
+
+Start simple, build momentum
+Here’s how you can start the learning:
+
+Phase 1: Install Claude Code, set up your project folder, and run /init to create your claude.md. Get comfortable with basic slash commands. This alone will feel like a significant upgrade from regular Claude.
+
+Phase 2: Create your first custom slash command for your most common task. For me, it was /quick-edit for newsletter improvements. Pick one thing you do repeatedly and build a command around it.
+
+Phase 3: Experiment with plan mode for complex tasks. Start with something safe like organizing research files where you can see what Claude Code plans to do before it acts.
+
+Phase 4: Deploy your first sub-agent for a recurring background task. Mine was daily AI news monitoring. Pick something that takes you time but follows a predictable pattern.
+
+From there, you can add output styles, MCP integrations, and mobile workflows as they become relevant to your specific needs.
+
+The bigger picture
+What we’ve covered is more than just making Claude Code work—it’s about reimagining your relationship with AI agent. Instead of AI being something you occasionally chat with for help, it becomes an intelligent system that understands your work, anticipates your needs, and operates continuously in the background of your projects.
+
+This is what practical AI implementation looks like in 2025. Not replacing human creativity, but amplifying it. Not automating everything, but intelligently handling the repetitive cognitive tasks that drain your energy for the work that actually matters.
+
+A reality check
+Will Claude Code solve all your productivity problems? No.
+
+Will it occasionally frustrate you when commands don’t work exactly as expected? Absolutely.
+
+Is there a learning curve that requires patience and experimentation? Definitely.
+
+But once you experience having an AI agent that truly understands your project context, remembers your preferences, and can work across all your devices—going back to regular AI chat feels like trying to work with one hand tied behind your back.
+
+Join the experiment
+I’m constantly discovering new ways to use Claude Code for newsletter and content workflows. If you implement any of these techniques, I’d love to hear how they work for your specific projects. Please comment below and let me know how you work using Claude Code.
+
+Want to skip the trial and error? If you want to skip the months of experimentation to build your project folder for writing and research, you can steal mine and learn from how I structure it myself. There are over 5+ sub-agents ready to use, 20+ custom commands, and 3 output styles that you can learn and adjust to your own area of expertise and work.
+
+Upgrade to AI Maker Labs and access them anytime.
+
+Type your email...
+Subscribe
+The future of AI agent isn’t coming—it’s here. Claude Code is just the beginning of AI systems that integrate directly into how we work rather than existing as separate tools we occasionally consult.
+
+Your writing and research workflows are about to get significantly more intelligent.
+
+Time to dive in.
+
+101 Likes
+∙
+15 Restacks
+Discussion about this post
+Write a comment...
+Meenakshi NavamaniAvadaiappan
+Sep 25
+
+Thanks for the elaborate walkthrough for the good 😊
+
+Like (3)
+Reply
+Share
+1 reply by Wyndo
+Saif
+Sep 25
+
+I have so many voice notes I want to leverage. I’ve been trying to get Claude to put them in a format I like but it keeps screwing it up. This seems like a lot of overhead but if it solves my problem it’s 100% worth it. Thanks Wyndo for the great content.
+
+Like (2)
+Reply
+Share
+4 replies by Wyndo and others
+32 more comments...
+
+How I Learned Complex Topics 10x Faster with NotebookLM
+And why you should too.
+Apr 3 • Wyndo
+714
+83
+
+My AI Therapy Workflow: Turn Claude/ChatGPT and NotebookLM Into Your Self-Discovery Tool
+Therapy is the #1 use case for AI in 2025, this is how you can maximize it.
+Apr 24 • Wyndo
+418
+78
+
+How I Used James Clear's Atomic Habits to Build 15 AI Systems That Run My Life
+The simple framework that turned me into an AI-First thinker.
+Jun 12 • Wyndo
+323
+81
+
+Ready for more?
+
+Type your email...
+Subscribe
+© 2025 Wyndo
+Privacy ∙ Terms ∙ Collection notice
+Start writing
+Get the app
+Substack is the home for great culture

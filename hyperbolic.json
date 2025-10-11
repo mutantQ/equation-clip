@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+      "hyperbolic-gpu": {
+        "command": "node",
+        "args": ["/path/to/hyperbolic-mcp-server/build/index.js"],
+        "env": {
+          "HYPERBOLIC_API_TOKEN": "your-hyperbolic-api-token",
+          "SSH_PRIVATE_KEY_PATH": "/path/to/your/privatekey" 
+        }
+      }
+    }
+  }

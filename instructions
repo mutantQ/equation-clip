@@ -1,0 +1,516 @@
+## Equation CLIP: Contrastive Learning for Physics Equations
+
+### Core Concept
+
+**Hypothesis**: We can learn a joint embedding space where:
+- Equations that describe similar physics are close together
+- Equations are close to their natural language descriptions
+- We can perform semantic search: text query → relevant equations
+
+**Inspiration**: OpenAI's CLIP learns image-text alignments. We'll learn equation-text alignments.
+
+---
+
+## Phase 1: Data Collection
+
+### Primary Dataset: arXiv Physics Papers
+
+**Source**: arXiv API + LaTeXML parser
+
+**Target**: 100K-500K (equation, description) pairs
+
+**Collection Strategy**:
+
+```python
+# Data structure
+{
+    "equation_latex": "\\nabla^2 \\psi = \\frac{1}{c^2}\\frac{\\partial^2 \\psi}{\\partial t^2}",
+    "equation_context": "The wave equation describes...",
+    "paper_section": "Background",
+    "physics_domain": "Classical Mechanics / Waves",
+    "paper_id": "2103.xxxxx"
+}
+```
+
+**Extraction Pipeline**:
+
+1. **Automated extraction**:
+   - Parse LaTeX equations from arXiv papers (physics.*, math-ph)
+   - Extract surrounding sentences (±3 sentences) as context
+   - Filter: Keep equations appearing in main text, not references
+   - Minimum length: 5 tokens (filter out trivial equations like $x=0$)
+
+2. **Heuristic filtering**:
+   - Remove pure mathematical notation (e.g., "Let $x \in \mathbb{R}$")
+   - Keep equations with physical interpretation
+   - Identify key equations (appear in abstract, introduction, or have explicit labels)
+
+3. **Domain labeling** (semi-automated):
+   - Use paper categories (physics.class-ph, physics.quant-ph, etc.)
+   - Extract keywords from surrounding text
+   - Build taxonomy: Mechanics → Classical, Quantum, Statistical, etc.
+
+### Augmented Datasets:
+
+**Textbook equations** (high quality, curated):
+- Scrape from online physics textbooks (OpenStax, MIT OCW)
+- Wikipedia physics articles
+- ~10K high-quality (equation, description) pairs
+
+**Synthetic variations** (data augmentation):
+- Symbolic transformations: $F=ma$ ↔ $a=F/m$ ↔ $m=F/a$
+- Change of variables: $E=mc^2$ ↔ $E=\gamma m_0 c^2$ (for $v=0$)
+- Different notations: $\nabla \times \mathbf{B}$ ↔ $\text{curl}(\mathbf{B})$
+
+**Negative pairs** (for contrastive learning):
+- Random equation from different physics domain
+- Equation with description from unrelated equation
+- Synthetic "hard negatives": similar-looking but physically different equations
+
+### Data Quality Control:
+
+- Manual review of 1000 samples
+- Inter-annotator agreement on physics domain labels
+- Validation set: 5K expert-curated (equation, description) pairs
+
+---
+
+## Phase 2: Model Architecture
+
+### Equation Encoder
+
+**Challenge**: Equations have hierarchical tree structure, not flat sequences
+
+**Approach 1: Tree-based Encoder (Preferred)**
+
+```
+Equation LaTeX → Parse Tree → Tree Transformer → Embedding
+
+Example:
+\frac{d^2x}{dt^2} = -\omega^2 x
+
+Parse Tree:
+        =
+       / \
+    d²x/dt²  *
+            / \
+          -ω²  x
+```
+
+**Architecture**:
+- Parse LaTeX into Abstract Syntax Tree (AST) using SymPy or custom parser
+- Tree Transformer (Zhou et al., 2019) or Graph Attention Network
+- Pool to fixed-size embedding: 512-dim vector
+
+**Approach 2: Sequence-based Encoder (Baseline)**
+
+```
+Equation LaTeX → Tokenize → Transformer → Embedding
+```
+
+- Treat equation as sequence: `\frac { d ^ 2 x } { d t ^ 2 } = - \omega ^ 2 x`
+- Pre-trained math transformer (e.g., MathBERT) as initialization
+- 6-12 transformer layers
+- Pool final hidden states → 512-dim embedding
+
+**Approach 3: Hybrid (Ambitious)**
+
+- Dual encoders: structural (tree) + sequential (tokens)
+- Concatenate embeddings
+- Learn weighted combination
+
+### Text Encoder
+
+**Architecture**: Standard transformer (simpler than equation side)
+
+```
+Description text → BERT/SciBERT tokenization → Transformer → Embedding
+```
+
+**Specific design**:
+- Initialize with **SciBERT** (pre-trained on scientific papers)
+- 6-12 transformer layers
+- Pool: [CLS] token or mean pooling → 512-dim embedding
+- Match embedding dimension with equation encoder
+
+### Projection Heads
+
+```
+Equation embedding (512-d) → MLP → Normalized embedding (256-d)
+Text embedding (512-d) → MLP → Normalized embedding (256-d)
+```
+
+- 2-layer MLP with ReLU
+- L2 normalization for contrastive learning
+- Final embeddings live on unit hypersphere
+
+---
+
+## Phase 3: Training Procedure
+
+### Contrastive Loss (CLIP-style)
+
+**Setup**: Batch of $N$ (equation, text) pairs
+
+**Objective**: Maximize similarity of positive pairs, minimize for negative pairs
+
+```python
+# Pseudocode
+def clip_loss(eq_embeds, text_embeds, temperature=0.07):
+    # Compute similarity matrix
+    logits = eq_embeds @ text_embeds.T / temperature  # (N, N)
+    
+    # Symmetric loss
+    labels = torch.arange(N)  # Diagonal elements are positives
+    loss_eq2text = cross_entropy(logits, labels)
+    loss_text2eq = cross_entropy(logits.T, labels)
+    
+    return (loss_eq2text + loss_text2eq) / 2
+```
+
+**Key hyperparameters**:
+- Temperature $\tau = 0.07$ (standard for CLIP)
+- Batch size: 256-1024 (larger = more negatives = better)
+- Learning rate: 5e-5 for encoders, 1e-3 for projection heads
+
+### Training Strategy
+
+**Phase 3.1: Warm-up (Epochs 1-5)**
+- Train only on high-quality textbook data (10K pairs)
+- Freeze SciBERT initialization, train only projection heads
+- Establish basic equation-text alignment
+
+**Phase 3.2: Main Training (Epochs 6-30)**
+- Full arXiv dataset (100K-500K pairs)
+- Unfreeze all parameters
+- Curriculum learning: Easy → Hard
+  - Early: Equations with explicit descriptions
+  - Late: Equations with implicit/context-dependent meanings
+
+**Phase 3.3: Hard Negative Mining (Epochs 31-40)**
+- Mine hard negatives: equations from similar domains
+- Increase temperature slightly (0.07 → 0.10)
+- Focus on discriminative features
+
+### Data Augmentation
+
+**For equations**:
+- Random variable renaming: $x \to y$, $\omega \to \Omega$
+- Symbolic equivalences: $\sin^2 x + \cos^2 x = 1$
+- Different LaTeX representations: `\frac{a}{b}` vs `a/b`
+
+**For text**:
+- Paraphrase using GPT-4 (generate 3 variations per description)
+- Back-translation (English → German → English)
+- Mask and predict (MLM-style)
+
+---
+
+## Phase 4: Evaluation Metrics
+
+### 4.1 Equation Retrieval (Text → Equation)
+
+**Setup**: Query with text, retrieve top-K equations
+
+**Metrics**:
+- Recall@K (K=1,5,10): Is correct equation in top-K?
+- Mean Reciprocal Rank (MRR)
+- Normalized Discounted Cumulative Gain (NDCG)
+
+**Test queries**:
+- "Equation for force between two charges" → Coulomb's law
+- "Conservation of energy in mechanics" → $E = T + V = \text{const}$
+- "Schrodinger equation for hydrogen atom" → $\hat{H}\psi = E\psi$
+
+### 4.2 Text Retrieval (Equation → Text)
+
+**Setup**: Query with equation, retrieve top-K descriptions
+
+**Same metrics**: Recall@K, MRR, NDCG
+
+### 4.3 Semantic Similarity
+
+**Setup**: Human-annotated equation pairs with similarity scores (0-5)
+
+**Metric**: Spearman correlation between:
+- Human similarity judgments
+- Cosine similarity in learned embedding space
+
+**Example pairs**:
+- (Maxwell's equations, Electromagnetic wave equation): High similarity
+- (Schrödinger equation, Newton's F=ma): Medium similarity  
+- (Wave equation, Ideal gas law): Low similarity
+
+### 4.4 Zero-Shot Classification
+
+**Setup**: Classify equations into physics domains without fine-tuning
+
+**Method**:
+- Domain descriptions: "This equation describes quantum mechanics"
+- Compute similarity between equation and each domain description
+- Predict domain with highest similarity
+
+**Domains**: Classical Mechanics, E&M, Quantum, Thermodynamics, Relativity
+
+**Metric**: Classification accuracy
+
+### 4.5 Equation Clustering
+
+**Setup**: Cluster equations in embedding space, compare to ground truth domains
+
+**Metrics**:
+- Adjusted Rand Index (ARI)
+- Normalized Mutual Information (NMI)
+- Silhouette score
+
+---
+
+## Phase 5: Baselines
+
+### Baseline 1: TF-IDF + Edit Distance
+- Represent equations as LaTeX strings
+- TF-IDF for text
+- Cosine similarity
+
+### Baseline 2: TangentCFT
+- State-of-the-art math retrieval system
+- Tree-based representation + fastText embeddings
+
+### Baseline 3: SciBERT (text-only)
+- Ignore equation structure
+- Treat LaTeX as text tokens
+- Standard BERT embedding
+
+### Baseline 4: Equation Embeddings (Krstovski & Blei, 2018)
+- Reproduce their unsupervised method
+- Compare with our contrastive approach
+
+### Baseline 5: Random Embeddings
+- Sanity check: Random projections should fail
+
+---
+
+## Phase 6: Ablation Studies
+
+### 6.1 Architecture Ablations
+
+1. **Equation encoder**: Tree vs Sequence vs Hybrid
+2. **Text encoder**: SciBERT vs BERT vs RoBERTa
+3. **Embedding dimension**: 128 / 256 / 512 / 1024
+4. **Number of layers**: 4 / 6 / 12
+
+### 6.2 Training Ablations
+
+1. **Loss function**: CLIP loss vs triplet loss vs InfoNCE
+2. **Batch size**: 64 / 256 / 1024
+3. **Temperature**: 0.05 / 0.07 / 0.10 / 0.15
+4. **Data augmentation**: With vs without
+
+### 6.3 Data Ablations
+
+1. **Dataset size**: 10K / 50K / 100K / 500K
+2. **Data quality**: arXiv only vs + textbooks
+3. **Domain diversity**: Single domain vs multi-domain
+
+---
+
+## Phase 7: Novel Applications
+
+### 7.1 Equation Auto-completion
+
+**Use case**: Help researchers find relevant equations
+
+**Demo**: 
+```
+User types: "The equation for electromagnetic..."
+System suggests: 
+1. ∇×E = -∂B/∂t (Faraday's law)
+2. ∇×B = μ₀J + μ₀ε₀∂E/∂t (Ampere-Maxwell)
+3. F = q(E + v×B) (Lorentz force)
+```
+
+### 7.2 Equation Explanation Generation
+
+**Use case**: Given equation, generate natural language explanation
+
+**Method**: Train text decoder conditioned on equation embedding
+
+```
+Input: ∇²ψ = (1/c²)∂²ψ/∂t²
+Output: "This is the wave equation, which describes how waves 
+         propagate through space at speed c..."
+```
+
+### 7.3 Cross-Domain Analogy
+
+**Use case**: Find analogous equations across physics domains
+
+**Example**:
+```
+Query: "Equation analogous to F=ma in quantum mechanics"
+Result: -iℏ∂ψ/∂t = Ĥψ (Schrödinger equation)
+Reasoning: Both describe time evolution of state
+```
+
+### 7.4 Equation Interpolation
+
+**Use case**: Explore equation space between two equations
+
+**Method**: Linear interpolation in embedding space, decode to equations
+
+```
+Equation A: F = ma (Classical)
+    ↓ [interpolate]
+Intermediate: F = dp/dt (Relativistic hint)
+    ↓
+Equation B: E = mc² (Relativistic)
+```
+
+### 7.5 Literature Discovery
+
+**Use case**: Find papers discussing specific equation types
+
+**Demo**:
+```
+Query equation: Navier-Stokes equations
+System finds: Papers on fluid dynamics, turbulence, CFD
+```
+
+---
+
+## Phase 8: Implementation Roadmap
+
+### Month 1-2: Data Collection
+- **Week 1-2**: Build arXiv scraping pipeline
+- **Week 3-4**: Parse LaTeX, extract equations + context
+- **Week 5-6**: Curate textbook dataset
+- **Week 7-8**: Quality control, build train/val/test splits
+
+**Deliverable**: Dataset of 100K+ (equation, text) pairs
+
+### Month 3-4: Model Development
+- **Week 9-10**: Implement equation encoders (tree + sequence)
+- **Week 11-12**: Implement text encoder (SciBERT-based)
+- **Week 13-14**: Build training loop, CLIP loss
+- **Week 15-16**: Debugging, initial training runs
+
+**Deliverable**: Working Equation CLIP prototype
+
+### Month 5: Training & Iteration
+- **Week 17-18**: Main training run
+- **Week 19-20**: Hyperparameter tuning, ablations
+
+**Deliverable**: Trained model, training logs
+
+### Month 6: Evaluation & Applications
+- **Week 21-22**: Run all evaluations, baselines
+- **Week 23**: Build demo applications
+- **Week 24**: Prepare visualizations, analysis
+
+**Deliverable**: Full evaluation results, demo
+
+### Month 7: Paper Writing
+- **Week 25-26**: Draft introduction, related work, methods
+- **Week 27**: Results, ablations, analysis
+- **Week 28**: Conclusions, revision
+
+**Deliverable**: Conference paper submission (NeurIPS, ICLR, ICML)
+
+---
+
+## Code Structure
+
+```
+equation-clip/
+├── data/
+│   ├── scrape_arxiv.py          # arXiv data collection
+│   ├── parse_equations.py       # LaTeX → AST parsing
+│   ├── build_dataset.py         # Create train/val/test
+│   └── augmentation.py          # Data augmentation
+├── models/
+│   ├── equation_encoder.py     # Tree/sequence encoder
+│   ├── text_encoder.py         # SciBERT wrapper
+│   ├── clip_model.py           # Full Equation CLIP
+│   └── losses.py               # Contrastive losses
+├── training/
+│   ├── train.py                # Main training loop
+│   ├── config.yaml             # Hyperparameters
+│   └── curriculum.py           # Curriculum learning
+├── evaluation/
+│   ├── retrieval.py            # Recall@K, MRR
+│   ├── clustering.py           # ARI, NMI
+│   ├── classification.py       # Zero-shot eval
+│   └── baselines.py            # Baseline implementations
+├── applications/
+│   ├── demo_search.py          # Equation search UI
+│   ├── explanation_gen.py      # Text generation
+│   └── visualize.py            # t-SNE, embedding viz
+└── notebooks/
+    ├── 01_data_exploration.ipynb
+    ├── 02_training_analysis.ipynb
+    └── 03_results_viz.ipynb
+```
+
+---
+
+## Expected Results
+
+### Quantitative:
+
+- **Retrieval**: Recall@5 > 70% (vs TangentCFT ~50%)
+- **Similarity**: Spearman ρ > 0.7 with human judgments
+- **Classification**: Zero-shot accuracy > 75%
+- **Clustering**: ARI > 0.6
+
+### Qualitative:
+
+- Semantically meaningful equation clusters
+- Cross-domain analogies emerge naturally
+- Successful zero-shot transfer to new physics domains
+
+---
+
+## Publication Strategy
+
+### Target Venues:
+
+**ML Conferences**:
+- NeurIPS (Neural Information Processing Systems)
+- ICLR (International Conference on Learning Representations)
+- ICML (International Conference on Machine Learning)
+
+**AI for Science**:
+- NeurIPS AI for Science workshop
+- ICLR Workshop on Machine Learning for Physical Sciences
+
+**Interdisciplinary**:
+- Nature Machine Intelligence
+- PNAS (if results are strong enough)
+
+### Paper Angle:
+
+**Title**: "Equation CLIP: Contrastive Learning for Semantic Understanding of Physics Equations"
+
+**Key contributions**:
+1. First contrastive learning approach for equation-text pairs
+2. Novel tree-based equation encoder
+3. Large-scale physics equation dataset
+4. Strong zero-shot transfer across physics domains
+
+**Story**: "Just as CLIP revolutionized image-text understanding, Equation CLIP enables semantic search and understanding of mathematical physics"
+
+---
+
+## Risks & Mitigation
+
+### Risk 1: Data quality issues
+- **Mitigation**: Manual curation of subset, active learning for labeling
+
+### Risk 2: Equations too domain-specific
+- **Mitigation**: Focus on fundamental equations first, expand gradually
+
+### Risk 3: Model doesn't learn meaningful embeddings
+- **Mitigation**: Strong baselines, ablations, ensure data quality
+
+### Risk 4: Computational cost too high
+- **Mitigation**: Start small (10K dataset), scale if promising
