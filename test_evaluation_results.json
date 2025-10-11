@@ -1,0 +1,177 @@
+{
+  "metrics": {
+    "eq2text_recall@1": 0.03194888308644295,
+    "eq2text_recall@5": 0.15654951333999634,
+    "eq2text_recall@10": 0.30990415811538696,
+    "eq2text_recall@20": 0.6246006488800049,
+    "text2eq_recall@1": 0.030351437628269196,
+    "text2eq_recall@5": 0.15015974640846252,
+    "text2eq_recall@10": 0.30351439118385315,
+    "text2eq_recall@20": 0.6038338541984558,
+    "eq2text_mrr": 0.12673455476760864,
+    "eq2text_median_rank": 15.0
+  },
+  "failure_cases": [
+    {
+      "id": "syn_005460",
+      "true_equation": "PV = nRT",
+      "true_description": "Mathematical expression for ideal gas law relating pressure, volume, amount and temperature",
+      "retrieved_description": "The formula Ideal gas law relating pressure, volume, amount and temperature",
+      "similarity_score": 0.9999944567680359,
+      "correct_score": 0.9999943971633911
+    },
+    {
+      "id": "syn_001478",
+      "true_equation": "F = q(E + v \\times B)",
+      "true_description": "Lorentz force on a charged particle in electromagnetic field",
+      "retrieved_description": "This equation represents lorentz force on a charged particle in electromagnetic field",
+      "similarity_score": 0.9999873042106628,
+      "correct_score": 0.9999868273735046
+    },
+    {
+      "id": "syn_006212",
+      "true_equation": "ds^2 = -c^2dt^2 + dx^2 + dy^2 + dz^2",
+      "true_description": "Minkowski metric for flat spacetime in special relativity",
+      "retrieved_description": "This equation represents minkowski metric for flat spacetime in special relativity",
+      "similarity_score": 0.9999886155128479,
+      "correct_score": 0.9999883770942688
+    },
+    {
+      "id": "syn_000345",
+      "true_equation": "F = ma",
+      "true_description": "Newton's second law of motion relating force, mass and acceleration",
+      "retrieved_description": "The formula Ideal gas law relating pressure, volume, amount and temperature",
+      "similarity_score": 0.9999940991401672,
+      "correct_score": 0.9999940395355225
+    },
+    {
+      "id": "syn_000326",
+      "true_equation": "F = ma",
+      "true_description": "This equation represents newton's second law of motion relating force, mass and acceleration",
+      "retrieved_description": "The formula Ideal gas law relating pressure, volume, amount and temperature",
+      "similarity_score": 0.9999940991401672,
+      "correct_score": 0.9999934434890747
+    },
+    {
+      "id": "syn_008843",
+      "true_equation": "\\hat{H}|\\psi\\rangle = E|\\psi\\rangle",
+      "true_description": "Eigenvalue equation for the Hamiltonian operator",
+      "retrieved_description": "The formula Eigenvalue equation for the Hamiltonian operator",
+      "similarity_score": 0.9999922513961792,
+      "correct_score": 0.9999918937683105
+    },
+    {
+      "id": "syn_005401",
+      "true_equation": "PV = nRT",
+      "true_description": "Ideal gas law relating pressure, volume, amount and temperature",
+      "retrieved_description": "The formula Ideal gas law relating pressure, volume, amount and temperature",
+      "similarity_score": 0.9999944567680359,
+      "correct_score": 0.9999938011169434
+    },
+    {
+      "id": "syn_001807",
+      "true_equation": "F = q(E + v \\times B)",
+      "true_description": "The formula Lorentz force on a charged particle in electromagnetic field",
+      "retrieved_description": "This equation represents lorentz force on a charged particle in electromagnetic field",
+      "similarity_score": 0.9999873042106628,
+      "correct_score": 0.9999869465827942
+    },
+    {
+      "id": "syn_008782",
+      "true_equation": "\\hat{H}|\\psi\\rangle = E|\\psi\\rangle",
+      "true_description": "Eigenvalue equation for the Hamiltonian operator",
+      "retrieved_description": "The formula Eigenvalue equation for the Hamiltonian operator",
+      "similarity_score": 0.9999922513961792,
+      "correct_score": 0.9999918937683105
+    },
+    {
+      "id": "syn_002728",
+      "true_equation": "\\nabla \\times B = \\mu_0 J + \\mu_0\\epsilon_0 \\frac{\\partial E}{\\partial t}",
+      "true_description": "This equation represents ampere-maxwell law relating magnetic field curl to current and changing electric field",
+      "retrieved_description": "Ampere-Maxwell law relating magnetic field curl to current and changing electric field",
+      "similarity_score": 0.999981701374054,
+      "correct_score": 0.9999807476997375
+    },
+    {
+      "id": "syn_009379",
+      "true_equation": "\\nabla \\times E = -\\frac{\\partial B}{\\partial t}",
+      "true_description": "Mathematical expression for faraday's law of electromagnetic induction",
+      "retrieved_description": "Faraday's law of electromagnetic induction",
+      "similarity_score": 0.9999783039093018,
+      "correct_score": 0.9999758005142212
+    },
+    {
+      "id": "syn_003625",
+      "true_equation": "[\\hat{x}, \\hat{p}] = i\\hbar",
+      "true_description": "This equation represents canonical commutation relation between position and momentum operators",
+      "retrieved_description": "Canonical commutation relation between position and momentum operators",
+      "similarity_score": 0.9999940395355225,
+      "correct_score": 0.9999935030937195
+    },
+    {
+      "id": "syn_006714",
+      "true_equation": "G_{\\mu\\nu} = \\frac{8\\pi G}{c^4}T_{\\mu\\nu}",
+      "true_description": "Einstein field equations relating spacetime curvature to energy-momentum",
+      "retrieved_description": "The formula Einstein field equations relating spacetime curvature to energy-momentum",
+      "similarity_score": 0.9999925494194031,
+      "correct_score": 0.9999923706054688
+    },
+    {
+      "id": "syn_005054",
+      "true_equation": "S = k_B \\ln \\Omega",
+      "true_description": "Boltzmann entropy formula relating entropy to number of microstates",
+      "retrieved_description": "Mathematical expression for boltzmann entropy formula relating entropy to number of microstates",
+      "similarity_score": 0.9999933838844299,
+      "correct_score": 0.9999932646751404
+    },
+    {
+      "id": "syn_000747",
+      "true_equation": "E_k = \\frac{1}{2}mv^2",
+      "true_description": "Mathematical expression for kinetic energy equation for a moving object with mass and velocity",
+      "retrieved_description": "This equation represents kinetic energy equation for a moving object with mass and velocity",
+      "similarity_score": 0.9999892711639404,
+      "correct_score": 0.9999889135360718
+    },
+    {
+      "id": "syn_005567",
+      "true_equation": "PV = nRT",
+      "true_description": "Ideal gas law relating pressure, volume, amount and temperature",
+      "retrieved_description": "The formula Ideal gas law relating pressure, volume, amount and temperature",
+      "similarity_score": 0.9999944567680359,
+      "correct_score": 0.9999938011169434
+    },
+    {
+      "id": "syn_003587",
+      "true_equation": "[\\hat{x}, \\hat{p}] = i\\hbar",
+      "true_description": "Mathematical expression for canonical commutation relation between position and momentum operators",
+      "retrieved_description": "Canonical commutation relation between position and momentum operators",
+      "similarity_score": 0.9999940395355225,
+      "correct_score": 0.9999939203262329
+    },
+    {
+      "id": "syn_007954",
+      "true_equation": "\\Box \\phi = 0",
+      "true_description": "This equation represents d'alembert operator equation for massless wave propagation",
+      "retrieved_description": "Mathematical expression for d'alembert operator equation for massless wave propagation",
+      "similarity_score": 0.9999892115592957,
+      "correct_score": 0.9999884366989136
+    },
+    {
+      "id": "syn_004396",
+      "true_equation": "dU = \\delta Q - \\delta W",
+      "true_description": "First law of thermodynamics relating internal energy change to heat and work",
+      "retrieved_description": "This equation represents first law of thermodynamics relating internal energy change to heat and work",
+      "similarity_score": 0.9999940991401672,
+      "correct_score": 0.9999938607215881
+    },
+    {
+      "id": "syn_000895",
+      "true_equation": "E_k = \\frac{1}{2}mv^2",
+      "true_description": "Mathematical expression for kinetic energy equation for a moving object with mass and velocity",
+      "retrieved_description": "This equation represents kinetic energy equation for a moving object with mass and velocity",
+      "similarity_score": 0.9999892711639404,
+      "correct_score": 0.9999889135360718
+    }
+  ],
+  "num_samples": 626
+}
