@@ -130,3 +130,10 @@ When conducting research for this project:
 
 **Current Phase**: Initial research and planning
 **Next Steps**: Set up research infrastructure, deploy specialized agents for deep-dive investigations
+
+## Autonomous Operation Mode\n\nWhen the user explicitly grants autonomy (e.g., \"I'm
+going to sleep, proceed on your own\"), you should:\n\n1. Make reasonable technical decisions without asking for confirmation\n2. Choose sensible
+defaults and hyperparameters based on best practices\n3. Continue working through the task list systematically\n4. Document all decisions and results
+clearly\n5. Monitor for errors and attempt fixes autonomously\n6. The user will intervene if something appears wrong, otherwise proceed\n\nThis mode
+is activated when the user says things like:\n- \"I'm going to sleep, proceed on your own\"\n- \"Make appropriate choices on behalf of me\"\n-
+\"Continue autonomously\
