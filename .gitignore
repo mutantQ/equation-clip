@@ -79,3 +79,5 @@ temp/
 *.pem
 config.yaml
 !configs/*.yaml
+huggingface-token
+wandb-key
