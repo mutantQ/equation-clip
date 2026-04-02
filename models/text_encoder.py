@@ -61,7 +61,7 @@ class SciTextEncoder(nn.Module):
 
         # Load pre-trained model
         logger.info(f"Loading pre-trained model: {model_name}")
-        self.transformer = AutoModel.from_pretrained(model_name)
+        self.transformer = AutoModel.from_pretrained(model_name, use_safetensors=True)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         # Freeze initial layers
